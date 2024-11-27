@@ -41,7 +41,7 @@ python training/src/data_collection.py $LABLEDATA_FOLDER $DATA_LOADED_FOLDER
 SPLIT_DATA_FOLDER="artifacts/split_data"
 check_and_create_folder $SPLIT_DATA_FOLDER
 printf "\n[2/5] [RUNNING TRAIN TEST SLIT STEP     ]\n"
-#python training/src/train_test_split.py $DATA_LOADED_FOLDER $SPLIT_DATA_FOLDER
+python training/src/train_test_split.py $DATA_LOADED_FOLDER $SPLIT_DATA_FOLDER
 
 ################################
 # final metadata/artifact push

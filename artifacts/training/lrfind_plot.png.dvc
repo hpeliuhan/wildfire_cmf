@@ -1,0 +1,5 @@
+outs:
+- md5: 25ab2ea2c15b1c8f6bc176afdfb0178c
+  size: 28556
+  hash: md5
+  path: lrfind_plot.png

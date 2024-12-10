@@ -1,0 +1,12 @@
+model_build:
+  BATCH_SIZE: 8
+  Width: 128
+  Height:  128
+  Depth: 3
+  Classes: 2
+  CLASSES: ["Non-Fire", "Fire"]
+  init_lr: 0.001
+  num_epochs: 50
+  momentum: 0.9
+  loss: "binary_crossentropy"
+  metrics: ["accuracy"]

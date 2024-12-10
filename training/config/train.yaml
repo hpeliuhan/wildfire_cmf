@@ -1,0 +1,12 @@
+train:
+  ImageDataGenerator:
+    rotation_range: 30
+    zoom_range: 0.15
+    width_shift_range: 0.2
+    height_shift_range: 0.2
+    shear_range: 0.15
+    horizontal_flip: True
+    fill_mode: "nearest"
+  batch_size: 8
+  epochs: 50
+

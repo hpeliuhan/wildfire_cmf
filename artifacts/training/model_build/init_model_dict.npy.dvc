@@ -1,0 +1,5 @@
+outs:
+- md5: 267041124b64efb5085fc6862c273f1a
+  size: 6166
+  hash: md5
+  path: init_model_dict.npy

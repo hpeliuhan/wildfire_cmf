@@ -1,0 +1,5 @@
+outs:
+- md5: 3b6913a543498739440f77a2f77c991e
+  size: 288030848
+  hash: md5
+  path: train_images.npy

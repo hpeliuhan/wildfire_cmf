@@ -1,0 +1,45 @@
+pipeline:
+  filepath: "cmf"
+  filename: "WILDFIRE"
+  artifact_path: "artifacts"
+  stages:
+    data_preparation:
+      executions:
+        download:
+          script_path: "training/src/download.py"
+          config_path: "training/config/download.yaml"
+        data_parse:
+          script_path: "training/src/data_parse.py"
+          config_path: "training/config/data_parse.yaml"
+        train_test_split:
+          script_path: "training/src/train_test_split.py"
+          config_path: "training/config/train_test_split.yaml"
+
+    training:
+      executions:
+        model_build:
+          script_path: "training/src/model_build.py"
+          config_path: "training/config/model_build.yaml"
+        learning_rate_finder:
+          script_path: "training/src/learning_rate_finder.py"
+          config_path: "training/config/learning_rate_finder.yaml"
+        train:
+          script_path: "training/src/train.py"
+          config_path: "training/config/train.yaml"
+        evaluation:
+          script_path: "training/src/evaluation.py"
+          config_path: "training/config/evaluation.yaml"
+
+    model_convert:
+      executions:
+        convert:
+          script_path: "training/src/model_convert.py"
+
+
+
+#    inference:
+#      executions:
+#        inference:
+#          model_path: "artifacts/models/trained"
+#          input_path: "artifacts/data/inference"
+#          output_path: "artifacts/inference_results"

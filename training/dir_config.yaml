@@ -1,0 +1,27 @@
+dir_config:
+  download:
+    output: artifacts/data_preparation/download
+  data_parse:
+    input: artifacts/data_preparation/download
+    output: artifacts/data_preparation/data_parse
+  train_test_split:
+    input: artifacts/data_preparation/data_parse
+    output: artifacts/data_preparation/train_test_split
+  model_build:
+    output: artifacts/training/model_build
+  learning_rate_finder:
+    input1: artifacts/data_preparation/train_test_split
+    input2: artifacts/training/model_build
+    output: artifacts/training/learning_rate_finder
+  train:
+    input1: artifacts/data_preparation/train_test_split
+    input2: artifacts/training/model_build
+    input3: artifacts/training/learning_rate_finder
+    output: artifacts/training/train
+  evaluation:
+    input1: artifacts/data_preparation/train_test_split
+    input2: artifacts/training/train
+    output: artifacts/training/evaluation
+  model_convert:
+    input: artifacts/training/train
+    output: artifacts/model_convert/convert

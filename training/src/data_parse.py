@@ -1,8 +1,4 @@
 from cmflib import cmf
- 
-# import the necessary packages
-
-# from imutils import paths
 import tarfile
 import numpy as np
 from tensorflow.keras.utils import to_categorical
@@ -10,8 +6,9 @@ import cv2
 import os
 import regex as re
 import click
-
-def load_dataset(inputPath:str,outputPath:str):
+from utils import *
+import yaml
+def load_dataset(config_file:str,dir_config_file:str):
     """ Load input file (images) and create images numpy files in output_dir directory.
     Args:
          
@@ -23,21 +20,24 @@ def load_dataset(inputPath:str,outputPath:str):
     """
     # grab the paths to all images in our dataset directory, then
     # initialize our lists of images
+    config_file = yaml.safe_load(open(config_file))["data_parse"]
+    normalizer=config_file["normalizer"]
 
-    graph_env = os.getenv("NEO4J", "True")
-    graph = True if graph_env == "True" or graph_env == "TRUE" else False
-    normalizer=255
-    metawriter = cmf.Cmf(filepath="cmf", pipeline_name="WILDFIRE", graph=graph)
-    _ = metawriter.create_context(pipeline_stage="data_load")
-    _ = metawriter.create_execution(execution_type="classify_images", custom_properties={"normalizer":normalizer})
+    dir_config_file = yaml.safe_load(open(dir_config_file))["dir_config"]["data_parse"]
+    inputPath = dir_config_file["input"]
+    outputPath = dir_config_file["output"]
+    os.makedirs(outputPath, exist_ok=True)
+
+    metawriter = set_cmf_environment("cmf", "WILDFIRE")
+    _ = metawriter.create_context(pipeline_stage="data_collection")
+    _ = metawriter.create_execution(execution_type="data_parse", custom_properties={"normalizer":normalizer})
     datasetName="all.tar.gz"
     dataset_path = os.path.join(inputPath,datasetName)
 
     with tarfile.open(dataset_path, "r:gz") as tar:
             tar.extractall(path=inputPath)
     imagePaths = [d for d in os.listdir(inputPath) if os.path.isdir(os.path.join(inputPath, d))]
-    print(imagePaths)
-    print(inputPath)
+
     _ = metawriter.log_dataset(dataset_path, "input", custom_properties={"image_name": dataset_path})  
 
     datasetList=[]
@@ -90,10 +90,10 @@ def load_dataset(inputPath:str,outputPath:str):
 
 
 @click.command()
-@click.argument('input_dir', required=True, type=str)
-@click.argument('output_dir', required=True, type=str)
-def load_dataset_cli(input_dir:str, output_dir: str) -> None:
-    load_dataset(input_dir, output_dir)
+@click.argument('config_file', required=True, type=str)
+@click.argument('dir_config_file', required=True, type=str)
+def load_dataset_cli(config_file:str, dir_config_file: str) -> None:
+    load_dataset(config_file, dir_config_file)
 
 
 if __name__ == '__main__':

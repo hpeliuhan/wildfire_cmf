@@ -1,0 +1,13 @@
+learning_rate_finder:
+  start: 1e-5
+  end: 1e-1
+  batches: 8
+  epochs: 50
+  aug:
+    rotation_range: 30
+    zoom_range: 0.15
+    width_shift_range: 0.2
+    height_shift_range: 0.2
+    shear_range: 0.15
+    horizontal_flip: True
+    fill_mode: "nearest"

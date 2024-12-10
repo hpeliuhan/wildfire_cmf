@@ -1,0 +1,5 @@
+outs:
+- md5: 0c606962fa53bfe1104782bb08953738
+  size: 11848
+  hash: md5
+  path: train_labels.npy

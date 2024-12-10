@@ -1,0 +1,5 @@
+outs:
+- md5: f4d004c53758aa97403a33d4aeda2276
+  size: 714
+  hash: md5
+  path: classification_report.json

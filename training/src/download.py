@@ -29,8 +29,8 @@ def download(config_file:str, dir_config_file: str) -> None:
     execution_dir_config=yaml.safe_load(open(dir_config_file))["dir_config"]
     download_dir=execution_dir_config["download"]["output"]
 
-    print(url)
-    print(download_dir)
+    #print(url)
+    #print(download_dir)
     response = requests.get(url, stream=True)
     response.raise_for_status()  # Check if the request was successful
     filename=get_filename_from_response(response) or get_filename_from_url(url)

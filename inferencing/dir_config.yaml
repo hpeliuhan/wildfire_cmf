@@ -1,0 +1,4 @@
+dir_config:
+  inference:
+    input: artifacts/model_convert/convert
+    output: artifacts/inference

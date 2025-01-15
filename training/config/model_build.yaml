@@ -1,10 +1,10 @@
 model_build:
-  BATCH_SIZE: 8
+  BATCH_SIZE: 32
   Width: 128
   Height:  128
   Depth: 3
   Classes: 2
-  CLASSES: ["Non-Fire", "Fire"]
+  CLASSES: ["None-Fire", "Fire"]
   init_lr: 0.001
   num_epochs: 50
   momentum: 0.9

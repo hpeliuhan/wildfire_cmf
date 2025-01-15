@@ -13,26 +13,43 @@ def model_convert(dir_config_file:str):
     os.makedirs(output_dir, exist_ok=True)
 
     model_path=os.path.join(input_dir, "trained_model.keras")
-    modelCheckpointFile=os.path.join(input_dir, "best_model.h5")
+    #modelCheckpointFile=os.path.join(input_dir, "best_model.h5")
     
     
     model = tf.keras.models.load_model(model_path)
-    converter = lite.TFLiteConverter.from_keras_model(model)
-    model.load_weights(modelCheckpointFile)
+    #model.load_weights(modelCheckpointFile)
+    #converter = lite.TFLiteConverter.from_keras_model(model)
+    converter = tf.lite.TFLiteConverter.from_keras_model(model)
+    #converter.optimizations = [tf.lite.Optimize.DEFAULT]
+    #converter.target_spec.supported_ops = [tf.lite.OpsSet.TFLITE_BUILTINS]
+    #converter.experimental_new_converter = True
+    #converter.experimental_new_quantizer = True
+
+    # Define the signature
+    '''
+    converter.signatures = {
+        "serving_default": {
+            "inputs": {"input": model.input},
+            "outputs": {"output": model.output}
+        }
+    }
+    '''
+
     tflite_model = converter.convert()
 
     tfLiteModelFile = os.path.join(output_dir, "model.tflite")
     open(tfLiteModelFile, "wb").write(tflite_model)
+    with open(tfLiteModelFile , "rb") as f:
+        signature = f.read(4)
+        print(signature)
 
     metawriter = set_cmf_environment("cmf","WILDFIRE")
     _ = metawriter.create_context(pipeline_stage="model_convert") 
     _ = metawriter.create_execution(execution_type="model_convert") 
-    _ = metawriter.log_model(
-    path=modelCheckpointFile,event="input"
-    )
+   # _ = metawriter.log_model(    path=modelCheckpointFile,event="input")
     _ = metawriter.log_model(
     path=tfLiteModelFile, event="output" 
-)
+    )
 
 
 @click.command()

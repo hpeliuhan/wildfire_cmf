@@ -68,6 +68,7 @@ def load_dataset(config_file:str,dir_config_file:str):
         nonFireLabels = np.zeros((tempNF.shape[0],))
         data = np.vstack([tempF, tempNF])
         labels = np.hstack([fireLabels, nonFireLabels])
+        print(labels)
         labels = to_categorical(labels, num_classes=2)    
         data /= normalizer
         #print(data.shape)

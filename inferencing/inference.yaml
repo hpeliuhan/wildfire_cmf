@@ -1,0 +1,9 @@
+inference:
+  video_path: videos
+  node_id: 6
+  type: video
+  class_labels: ["Non-Fire", "Fire"]
+  input_size: [128, 128]
+  model_name: model.tflite
+
+

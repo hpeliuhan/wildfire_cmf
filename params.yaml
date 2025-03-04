@@ -1,0 +1,38 @@
+data:
+  
+
+parse:
+  split: 0.20
+  random_state: 47
+
+lrf:
+  start: 1e-5
+  end: 1e-1
+  batches: 8
+  epochs: 100
+
+
+model:
+  BATCH_SIZE: 8
+  Width: 128
+  Height:  128
+  Depth: 3
+  Classes: 2
+  # initialize the class labels in the dataset
+  CLASSES: ["Non-Fire", "Fire"]
+  split: 0.8
+  init_lr: 1e-3
+  epochs: 50
+
+Image_aug:
+  rotation_range: 30
+  zoom_range: 0.15
+  width_shift_range: 0.2
+  height_shift_range: 0.2
+  shear_range: 0.15
+  horizontal_flip: True
+  fill_mode: "nearest"
+
+
+evaluation:
+  

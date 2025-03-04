@@ -44,6 +44,17 @@ printf "\n[2/5] [RUNNING TRAIN TEST SLIT STEP     ]\n"
 python training/src/train_test_split.py $DATA_LOADED_FOLDER $SPLIT_DATA_FOLDER
 
 ################################
+# run learning rate finder
+################################
+LEARNING_RATE_FOLDER="artifacts/learning_rate"
+check_and_create_folder $LEARNING_RATE_FOLDER
+printf "\n[3/5] [RUNNING LEARNING RATE FINDER STEP]\n"
+python training/src/learning_rate_finder.py $SPLIT_DATA_FOLDER $LEARNING_RATE_FOLDER
+
+
+
+
+################################
 # final metadata/artifact push
 ################################
 

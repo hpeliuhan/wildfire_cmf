@@ -7,6 +7,6 @@ train:
     shear_range: 0.15
     horizontal_flip: True
     fill_mode: "nearest"
-  batch_size: 8
+  batch_size: 32
   epochs: 50
 

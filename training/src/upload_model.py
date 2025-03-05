@@ -20,7 +20,7 @@ def upload_to_minio(file_path, bucket_name, object_name, minio_client):
 if __name__ == "__main__":
     # Initialize MinIO client
     minio_client = Minio(
-        "192.168.30.115:9000",
+        "192.168.30.116:9000",
         access_key="minioadmin",
         secret_key="minioadmin",
         secure=False

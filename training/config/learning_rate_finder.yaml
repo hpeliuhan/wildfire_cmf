@@ -2,7 +2,7 @@ learning_rate_finder:
   start: 1e-5
   end: 1e-1
   batches: 32
-  epochs: 50
+  epochs: 10
   aug:
     rotation_range: 30
     zoom_range: 0.15

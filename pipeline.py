@@ -4,6 +4,8 @@ import os
 from cmflib import cmf
 from training.src.utils import set_cmf_environment
 import requests
+import warnings
+warnings.filterwarnings("ignore")
 
 class Pipeline:
     def __init__(self, config_file):

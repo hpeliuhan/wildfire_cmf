@@ -1,6 +1,6 @@
 inference:
   video_path: videos
-  node_id: 6
+  node_id: 10
   type: video
   class_labels: ["Non-Fire", "Fire"]
   input_size: [128, 128]

@@ -46,7 +46,7 @@ def model_convert(dir_config_file:str):
     metawriter = set_cmf_environment("cmf","WILDFIRE")
     _ = metawriter.create_context(pipeline_stage="model_convert") 
     _ = metawriter.create_execution(execution_type="model_convert") 
-   # _ = metawriter.log_model(    path=modelCheckpointFile,event="input")
+    _ = metawriter.log_model(    path=model_path,event="input")
     _ = metawriter.log_model(
     path=tfLiteModelFile, event="output" 
     )

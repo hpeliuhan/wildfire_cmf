@@ -67,6 +67,7 @@ def train(config_file:str, dir_config_file:str):
 
     learning_rate_path=os.path.join(input_dir3, "lr_loss.npy")
     optimal_lr=choose_learning_rate(np.load(learning_rate_path))
+    print(optimal_lr)
     
     tf.keras.backend.set_value(model.optimizer.learning_rate, optimal_lr)
     aug=ImageDataGenerator(

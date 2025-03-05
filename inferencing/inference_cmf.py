@@ -13,6 +13,8 @@ import time
 import queue
 import zipfile
 from retry import retry
+from cmflib import cmf
+import pandas as pd
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '../training/src'))
 
@@ -81,6 +83,8 @@ def log_images(result_path, metawriter, log_queue):
                 for image_path in batch:
                     archive.write(image_path, os.path.basename(image_path))
             loop.run_until_complete(log_archive_async(metawriter, archive_path))
+            cmf.artifact_push(pipeline_name="WILDFIRE",filepath= "cmf")
+            cmf.metadata_push("WILDFIRE","./cmf")
             logged_images.update(batch)
 
 def process_video(cap, interpreter, input_size, class_labels, result_path, log_queue):
@@ -179,8 +183,17 @@ def inference_video(config_file:str, dir_config_file:str):
     _ = metawriter.create_context(pipeline_stage="inference")
     _ = metawriter.create_execution(execution_type="inferencing")
     _ = metawriter.log_model(path=model_path, event="input")
-    
     #_ = metawriter.log_dataset(predictions_npy_filename, event="output")
+
+    # Ensure 'type' column exists before filtering
+   # artifacts = cmf.artifacts_pull("WILDFIRE","cmf")
+   # if 'type' in artifacts.columns:
+   #     artifacts = artifacts[artifacts['type'] != 'Metrics']
+   # else:
+   #     print("Warning: 'type' column not found in artifacts DataFrame")
+
+   # cmf.artifact_push("WILDFIRE", "cmf")
+    #cmf.metadata_push("WILDFIRE", "cmf")
 
 @click.command()
 @click.argument('config_file', required=True, type=str)

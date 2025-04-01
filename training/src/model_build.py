@@ -6,7 +6,7 @@ import click
 import tensorflow as tf
 from utils import *
 
-def create_model(config_file: str,  dir_config_file: str):
+def create_model(config_file: str, dir_config_file: str):
     params = yaml.safe_load(open(config_file))["model_build"]
     Width = params["Width"]
     Height = params["Height"]
@@ -16,33 +16,39 @@ def create_model(config_file: str,  dir_config_file: str):
     INIT_LR = params["init_lr"]
     NUM_EPOCHS = params["num_epochs"]
     MOMENTUM = params["momentum"]
-    LOSS= params["loss"]
-    METRICS= params["metrics"]
+    LOSS = params["loss"]
+    METRICS = params["metrics"]
 
-    dir_config_file=yaml.safe_load(open(dir_config_file))["dir_config"]
-    output_path=dir_config_file["model_build"]["output"] 
+    dir_config_file = yaml.safe_load(open(dir_config_file))["dir_config"]
+    output_path = dir_config_file["model_build"]["output"]
     os.makedirs(output_path, exist_ok=True)
 
-    model=FireDetectionNet.build(width=Width, height=Height, depth=Depth, classes=Classes) 
-    model_dict_path=os.path.join(output_path, "init_model_dict.npy")
-    
-
+    # Build and save the model
+    model = FireDetectionNet.build(width=Width, height=Height, depth=Depth, classes=Classes)
+    model_dict_path = os.path.join(output_path, "init_model_dict.npy")
     FireDetectionNet.save_model_dict(model, filename=model_dict_path)
 
-    opt= tf.keras.optimizers.legacy.SGD(learning_rate=INIT_LR, momentum= MOMENTUM,decay=INIT_LR / NUM_EPOCHS)
-    model.compile(loss=LOSS, optimizer=opt, metrics = METRICS)
-    
-    model_path=os.path.join(output_path, "init_model.keras")
+    # Compile the model
+    opt = tf.keras.optimizers.legacy.SGD(learning_rate=INIT_LR, momentum=MOMENTUM, decay=INIT_LR / NUM_EPOCHS)
+    model.compile(loss=LOSS, optimizer=opt, metrics=METRICS)
+
+    # Save the model and weights
+    model_path = os.path.join(output_path, "init_model.keras")
+    weights_path = os.path.join(output_path, "init_model_weights.h5")
     model.save(model_path)
+    model.save_weights(weights_path)
 
+    # Log metadata
     metawriter = set_cmf_environment("cmf", "WILDFIRE")
-
     _ = metawriter.create_context(pipeline_stage="model training")
     _ = metawriter.create_execution(execution_type="model_build", custom_properties=params)
-    _ = metawriter.log_dataset(model_dict_path,event="output",custom_properties={"model_dict":model_dict_path})
+    _ = metawriter.log_dataset(model_dict_path, event="output", custom_properties={"model_dict": model_dict_path})
     _ = metawriter.log_model(
-        path=model_path,event="output",model_framework="tensorflow",model_type="CNN", custom_properties={"model_dict":model_dict_path})
-
+        path=model_path, event="output", model_framework="tensorflow", model_type="CNN",
+        custom_properties={"model_dict": model_dict_path, "weights_file": weights_path})
+    _ = metawriter.log_model(
+        path=weights_path, event="output", model_framework="tensorflow", model_type="CNN",
+        custom_properties={"type": "weights"})
 
 @click.command()
 @click.argument('config_file', required=True, type=str)

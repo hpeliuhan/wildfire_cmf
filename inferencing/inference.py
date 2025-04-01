@@ -62,8 +62,8 @@ def process_frame(frame, interpreter, input_size):
     return predictions
 
 def inference_video(config_file:str,dir_config_file:str):
-    url = "http://192.168.30.115:8086"
-    token = "R0F_eqrU8jAWam5_DwAdZ2GSngmb1coFNQjjVedPGrdurSKXNnMhSzFkIORupl8QxmkMLlrD9Aq0B-U9ncUXLQ=="
+    url = ""
+    token = ""
     org = "waggle"
     bucket = "waggle"
 
@@ -73,7 +73,7 @@ def inference_video(config_file:str,dir_config_file:str):
 
     #minio setting
     minio_client = Minio(
-        "192.168.30.115:9000",
+        "",
         access_key="minioadmin",
         secret_key="minioadmin",
         secure=False

@@ -57,6 +57,11 @@ def train(config_file:str, dir_config_file:str):
     class_weight_file=os.path.join(input_dir1,"classWeight.npy")
     model_path=os.path.join(input_dir2, "init_model.keras")
     model=tf.keras.models.load_model(model_path)
+
+    # Load the initial weights
+    weights_path = os.path.join(input_dir2, "init_model_weights.h5")
+    model.load_weights(weights_path)
+
     trainX= np.load(trainX_path)
     trainY= np.load(trainY_path) 
     testX= np.load(testX_path)
@@ -69,6 +74,7 @@ def train(config_file:str, dir_config_file:str):
     optimal_lr=choose_learning_rate(np.load(learning_rate_path))
     print(optimal_lr)
     
+    # Set the optimal learning rate
     tf.keras.backend.set_value(model.optimizer.learning_rate, optimal_lr)
     aug=ImageDataGenerator(
         rotation_range=rotation_range,
@@ -103,6 +109,12 @@ def train(config_file:str, dir_config_file:str):
     _ = metawriter.log_dataset(testY_path,"input")
     _ = metawriter.log_dataset(class_weight_file,"input")
     _ = metawriter.log_dataset(model_path ,"input")
+    _ = metawriter.log_dataset(learning_rate_path,"input")
+    _ = metawriter.log_model(
+        path=model_path,event="input",model_framework="tensorflow", model_type="CNN",custom_properties={"type":"model"})
+    _ = metawriter.log_model(
+        path=weights_path,event="input",model_framework="tensorflow", model_type="CNN",custom_properties={"type":"weights"})
+
     _ = metawriter.log_dataset(history_path  ,"output")
     _ = metawriter.log_model(
         path=modelCheckpointFile,event="output",model_framework="tensorflow",
@@ -123,4 +135,4 @@ def train_cli(config_file:str, dir_config_file: str) -> None:
     train(config_file, dir_config_file)
 
 if __name__=="__main__":
-    train_cli()   
+    train_cli()

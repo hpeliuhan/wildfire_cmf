@@ -55,9 +55,9 @@ class Pipeline:
             self.run_stage(stage_name)
 
     def upload_to_cmf(self):
-        self.result=cmf.artifact_push(self.filename,self.filepath)
-        self.result=cmf.metadata_push(self.filename,self.filepath)
-
+        cmf.artifact_push(pipeline_name=str(self.filename),filepath=f"./{self.filepath}")
+        cmf.metadata_push(pipeline_name=str(self.filename),filepath=f"./{self.filepath}")
+       
 
 
     def test_connection(self,address):

@@ -225,6 +225,8 @@ def learning_rate_finder(config_file:str, dir_config_file:str):
     #load model
     model_path=os.path.join(input_dir2, "init_model.keras")
     model=tf.keras.models.load_model(model_path)
+    weights_path=os.path.join(input_dir2, "init_model_weights.h5")
+    model.load_weights(weights_path)
     aug=ImageDataGenerator(
         rotation_range=rotation_range,
         zoom_range=zoom_range,
@@ -249,17 +251,23 @@ def learning_rate_finder(config_file:str, dir_config_file:str):
         batchSize=BATCH_SIZE,
         classWeight=class_weight_dict)
 
+    optimal_lr=lrf.lrs[lrf.losses.index(min(lrf.losses))]
     metawriter = set_cmf_environment("cmf","WILDFIRE")
     _ = metawriter.create_context(pipeline_stage="model training") 
     _ = metawriter.create_execution(execution_type="learning_rate_finder",custom_properties={"start_lr":INIT_LR,"epochs":lr_epochs}) 
 
     _ = metawriter.log_dataset(trainX_path,"input")
     _ = metawriter.log_dataset(trainY_path,"input")
+    _ = metawriter.log_model(
+        path=model_path,event="input",model_framework="tensorflow", model_type="CNN",custom_properties={"type":"model"})
+    _ = metawriter.log_model(
+        path=weights_path,event="input",model_framework="tensorflow", model_type="CNN",custom_properties={"type":"weights"})
+
 
     for ls in lrf.lrs:
         metawriter.log_metric("learning rate metrics",{"learning rate loss":float(ls)})
     _ = metawriter.commit_metrics("learning rate metrics")
-    _ = metawriter.log_execution_metrics("learning rate summary",{"ave_loss":lrf.avgLoss,"best_loss":lrf.bestLoss})
+    _ = metawriter.log_execution_metrics("learning rate summary",{"ave_loss":lrf.avgLoss,"best_loss":lrf.bestLoss,"optimal learning rate":optimal_lr})
 
     LRFIND_PLOT_PATH= os.path.join(outputdir,"lrfind_plot.png")
     lrf.plot_loss()

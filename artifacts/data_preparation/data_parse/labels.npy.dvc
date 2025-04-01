@@ -1,0 +1,5 @@
+outs:
+- md5: a1917c9a5c2b874d6f8f98cd7ed3d405
+  size: 14784
+  hash: md5
+  path: labels.npy

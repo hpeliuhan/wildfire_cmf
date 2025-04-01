@@ -108,7 +108,7 @@ def train(config_file:str, dir_config_file:str):
     _ = metawriter.log_dataset(testX_path,"input")
     _ = metawriter.log_dataset(testY_path,"input")
     _ = metawriter.log_dataset(class_weight_file,"input")
-    _ = metawriter.log_dataset(model_path ,"input")
+
     _ = metawriter.log_dataset(learning_rate_path,"input")
     _ = metawriter.log_model(
         path=model_path,event="input",model_framework="tensorflow", model_type="CNN",custom_properties={"type":"model"})

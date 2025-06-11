@@ -1,0 +1,5 @@
+/train_images.npy
+/val_images.npy
+/train_labels.npy
+/val_labels.npy
+/classWeight.npy

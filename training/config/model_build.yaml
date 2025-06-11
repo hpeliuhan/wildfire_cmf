@@ -6,7 +6,7 @@ model_build:
   Classes: 2
   CLASSES: ["None-Fire", "Fire"]
   init_lr: 0.001
-  num_epochs: 50
+  num_epochs: 20
   momentum: 0.9
   loss: "binary_crossentropy"
   metrics: ["accuracy"]

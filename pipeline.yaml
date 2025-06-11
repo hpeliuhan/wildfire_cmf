@@ -1,6 +1,6 @@
 pipeline:
-  filepath: "cmf"
-  filename: "WILDFIRE"
+  filepath: "mlmd"
+  filename: "wildfire-classification"
   artifact_path: "artifacts"
   stages:
     data_preparation:

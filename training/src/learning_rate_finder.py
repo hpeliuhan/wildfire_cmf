@@ -252,7 +252,7 @@ def learning_rate_finder(config_file:str, dir_config_file:str):
         classWeight=class_weight_dict)
 
     optimal_lr=lrf.lrs[lrf.losses.index(min(lrf.losses))]
-    metawriter = set_cmf_environment("cmf","WILDFIRE")
+    metawriter= set_cmf_environment("mlmd","wildfire-classification")
     _ = metawriter.create_context(pipeline_stage="model training") 
     _ = metawriter.create_execution(execution_type="learning_rate_finder",custom_properties={"start_lr":INIT_LR,"epochs":lr_epochs}) 
 

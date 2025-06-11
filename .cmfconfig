@@ -1,0 +1,8 @@
+[cmf]
+server-ip = http://192.168.30.116:8080
+
+[neo4j]
+user = neo4j
+password = dGVzdDEyMzQ=
+uri = bolt://192.168.30.116:7687
+

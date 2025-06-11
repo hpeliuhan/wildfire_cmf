@@ -43,7 +43,7 @@ def download(config_file:str, dir_config_file: str) -> None:
             file.write(chunk)
     print(f"Downloaded {url} to {output_path}")
 
-    meta_writer = set_cmf_environment("cmf", "WILDFIRE")
+    meta_writer= set_cmf_environment("mlmd","wildfire-classification")
     _ = meta_writer.create_context(pipeline_stage="data_collection")
     _ = meta_writer.create_execution(execution_type="download", custom_properties={"url": url})
     _ = meta_writer.log_dataset(output_path, "output")

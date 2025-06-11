@@ -43,7 +43,7 @@ def model_convert(dir_config_file:str):
         signature = f.read(4)
         print(signature)
 
-    metawriter = set_cmf_environment("cmf","WILDFIRE")
+    metawriter= set_cmf_environment("mlmd","wildfire-classification")
     _ = metawriter.create_context(pipeline_stage="model_convert") 
     _ = metawriter.create_execution(execution_type="model_convert") 
     _ = metawriter.log_model(    path=model_path,event="input")

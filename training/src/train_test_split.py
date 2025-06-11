@@ -52,7 +52,7 @@ def load_and_split_data(config_file: str, dir_config_file: str):
     np.save(classWeight_path, class_weight)
 
     #metadata artifect
-    metawriter =  set_cmf_environment("cmf", "WILDFIRE")
+    metawriter= set_cmf_environment("mlmd","wildfire-classification")
     _ = metawriter.create_context(pipeline_stage="data_collection")
     _ = metawriter.create_execution(execution_type="train_test_split", custom_properties=params)
 

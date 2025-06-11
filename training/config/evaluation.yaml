@@ -1,5 +1,5 @@
 evaluation:
-  NUM_EPOCHS: 50
+  NUM_EPOCHS: 20
   CLASSES: ["None-fire", "Fire"]
-  epochs: 50
+  epochs: 20
   batch_size: 32

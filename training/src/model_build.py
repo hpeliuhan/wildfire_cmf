@@ -39,7 +39,7 @@ def create_model(config_file: str, dir_config_file: str):
     model.save_weights(weights_path)
 
     # Log metadata
-    metawriter = set_cmf_environment("cmf", "WILDFIRE")
+    metawriter= set_cmf_environment("mlmd","wildfire-classification")
     _ = metawriter.create_context(pipeline_stage="model training")
     _ = metawriter.create_execution(execution_type="model_build", custom_properties=params)
     _ = metawriter.log_dataset(model_dict_path, event="output", custom_properties={"model_dict": model_dict_path})

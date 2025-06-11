@@ -56,8 +56,8 @@ class Pipeline:
 
     def upload_to_cmf(self):
         cmf.artifact_push(pipeline_name=str(self.filename),filepath=f"./{self.filepath}")
-        cmf.metadata_push(pipeline_name=str(self.filename),filepath=f"./{self.filepath}")
-       
+        #cmf.metadata_push(pipeline_name=str(self.filename),filepath=f"./{self.filepath}")
+        os.system(f"cmf metadata push -f {self.filepath} -p {self.filename}")
 
 
     def test_connection(self,address):
@@ -82,3 +82,4 @@ if __name__ == "__main__":
     pipeline.test_connection("http://192.168.30.116:3000")
     pipeline.run()
     pipeline.upload_to_cmf()
+    

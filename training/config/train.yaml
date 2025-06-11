@@ -8,5 +8,5 @@ train:
     horizontal_flip: True
     fill_mode: "nearest"
   batch_size: 32
-  epochs: 50
+  epochs: 20
 

@@ -82,7 +82,7 @@ def evaluation(config_file:str, dir_config_file:str):
 
 
 
-    metawriter=set_cmf_environment("cmf","WILDFIRE")
+    metawriter= set_cmf_environment("mlmd","wildfire-classification")
     _ = metawriter.create_context(pipeline_stage="model training") 
     _ = metawriter.create_execution(execution_type="evaluation") 
     _ = metawriter.log_dataset(testX_path,"input")

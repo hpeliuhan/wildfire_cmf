@@ -28,7 +28,7 @@ def load_dataset(config_file:str,dir_config_file:str):
     outputPath = dir_config_file["output"]
     os.makedirs(outputPath, exist_ok=True)
 
-    metawriter = set_cmf_environment("cmf", "WILDFIRE")
+    metawriter= set_cmf_environment("mlmd","wildfire-classification")
     _ = metawriter.create_context(pipeline_stage="data_collection")
     _ = metawriter.create_execution(execution_type="data_parse", custom_properties={"normalizer":normalizer})
     datasetName="all.tar.gz"

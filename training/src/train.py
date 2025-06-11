@@ -100,7 +100,7 @@ def train(config_file:str, dir_config_file:str):
     history_path=os.path.join(output_path, "history.npy")
     np.save(history_path, H.history)
 
-    metawriter= set_cmf_environment("cmf","WILDFIRE")
+    metawriter= set_cmf_environment("mlmd","wildfire-classification")
     _ = metawriter.create_context(pipeline_stage="model training")
     _ = metawriter.create_execution(execution_type="train", custom_properties=params)
     _ = metawriter.log_dataset(trainX_path,"input")

@@ -100,6 +100,28 @@ def train(config_file:str, dir_config_file:str):
     history_path=os.path.join(output_path, "history.npy")
     np.save(history_path, H.history)
 
+    # --- Export feature extractor (latent space) ---
+    from tensorflow.keras.models import Model
+
+    # Create the feature extractor using the layer name
+    feature_extractor = Model(
+        inputs=model.input,
+        outputs=model.get_layer("latent_vector").output  # Use the layer name instead of index
+    )
+
+    # Save the feature extractor
+    feature_extractor_path = os.path.join(output_path, "feature_extractor.keras")
+    feature_extractor.save(feature_extractor_path)
+    print(f"Feature extractor saved to {feature_extractor_path}")
+
+    # Optionally, convert to TFLite
+    tflite_path = os.path.join(output_path, "feature_extractor.tflite")
+    converter = tf.lite.TFLiteConverter.from_saved_model(feature_extractor_path)
+    tflite_model = converter.convert()
+    with open(tflite_path, "wb") as f:
+        f.write(tflite_model)
+    print(f"TFLite feature extractor saved to {tflite_path}")
+
     metawriter= set_cmf_environment("mlmd","wildfire-classification")
     _ = metawriter.create_context(pipeline_stage="model training")
     _ = metawriter.create_execution(execution_type="train", custom_properties=params)
@@ -121,7 +143,10 @@ def train(config_file:str, dir_config_file:str):
     model_type="CNN",custom_properties={"learning_rate":optimal_lr, "batch_size":BATCH_SIZE, "num_epochs":NUM_EPOCHS})
     _ = metawriter.log_model(
         path=model_finish_path,event="output",model_framework="tensorflow",
-    model_type="CNN", custom_properties={"learning_rate":optimal_lr, "batch_size":BATCH_SIZE, "num_epochs":NUM_EPOCHS})  
+    model_type="CNN", custom_properties={"learning_rate":optimal_lr, "batch_size":BATCH_SIZE, "num_epochs":NUM_EPOCHS}) 
+    _ = metawriter.log_model(
+        path=feature_extractor_path,event="output",model_framework="tensorflow",
+    model_type="CNN", custom_properties={"learning_rate":optimal_lr, "batch_size":BATCH_SIZE, "num_epochs":NUM_EPOCHS,"type":"feature_extractor"})   
 
 
 

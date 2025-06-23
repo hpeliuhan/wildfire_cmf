@@ -1,0 +1,5 @@
+outs:
+- md5: 687242fab08d34a4eef1df7268d7a649
+  size: 8480424
+  hash: md5
+  path: feature_extractor.keras

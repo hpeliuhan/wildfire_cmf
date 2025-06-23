@@ -42,7 +42,9 @@ class FireDetectionNet:
         model.add(MaxPooling2D(pool_size=(2, 2)))
         
         model.add(Flatten())
-        model.add(Dense(128))
+        #model.add(Dense(128))
+        model.add(Dense(128, name="latent_vector"))  # Named layer of the latent space
+
         model.add(Activation("relu"))
         model.add(BatchNormalization())
         model.add(Dropout(0.5))
